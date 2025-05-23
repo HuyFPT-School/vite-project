@@ -37,9 +37,7 @@ jobs:
           node-version: "18"
 
       - name: Install dependencies
-        working-directory: ./vite-project
         run: npm install
 
       - name: Build React app
-        working-directory: ./vite-project
         run: npm run build
