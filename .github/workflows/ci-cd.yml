@@ -1,43 +1,36 @@
-name: CI/CD for React + Spring Boot
+name: Deploy React App
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches:
+      - main  # mỗi lần push lên nhánh main sẽ trigger CI/CD
 
 jobs:
-  build-backend:
-    name: Build Spring Boot
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      # Bước 1: Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Set up Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: "temurin"
-          java-version: "17"
-
-      - name: Build with Maven
-        working-directory: ./backend
-        run: mvn clean install
-
-  build-frontend:
-    name: Build React App
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
+      # Bước 2: Cài Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: 18
 
+      # Bước 3: Cài package
       - name: Install dependencies
         run: npm install
 
-      - name: Build React app
+      # Bước 4: Build project
+      - name: Build React App
         run: npm run build
+
+      # Bước 5: Deploy lên GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
