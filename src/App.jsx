@@ -1,7 +1,7 @@
 import "./App.css";
 
 function App() {
-  return <div>B-Leaning</div>;
+  return <div>O-Leaning</div>;
 }
 
 export default App;
